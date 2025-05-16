@@ -1,0 +1,36 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Arial", sans-serif;
+}
+
+body {
+  height: 100%;
+}
+
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100vh; /* ocupa pelo menos toda a altura da tela */
+  padding: 1rem;
+}
+
+.titulo {
+  width: 44rem;
+}
+
+.inputRow {
+  padding: 40px;
+  border: 1px solid rgb(179, 179, 179);
+  border-radius: 10px;
+}
+
+.infoContent {
+  text-align: center;
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+}
