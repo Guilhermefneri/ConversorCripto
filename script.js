@@ -21,43 +21,72 @@ function exibirConversor(cripto) {
     divIinputRow.innerHTML = `
         <h2 class="titulo">Conversor de Criptomoedas</h2>
         <div class="inputRow">
-            <input type="number" id="inputValor" placeholder="Digite o valor">
+            <input type="number" id="quantCripto" placeholder="Digite o valor">
             <select name="criptomoedas" id="criptoSelect">
                 ${optionsCripto}
             </select>
             <button id="btn">Ver resultado</button>
             <div id="output"></div>
         </div>
-        <div class="infoContent">Informações aq</div>
+        <div class="infoContent" style="display: none;"></div>
          `
+
     main.appendChild(divIinputRow)
+
     const select = document.querySelector('#criptoSelect')
     const btn = document.querySelector('#btn')
     const output = document.querySelector('#output')
-    const inputValor = document.querySelector('#inputValor')
+    const quantCripto = document.querySelector('#quantCripto')
     const infoContent = document.querySelector(".infoContent")
 
     btn.addEventListener("click", () => {
-        const valor = parseFloat(inputValor.value)
+        const quantidadeC = quantCripto.value
         const selectCripto = cripto.find(c => c.id === select.value)
 
-        if (selectCripto && !isNaN(valor) && valor > 0) {
-            const resultado = valor * selectCripto.current_price
+        if (selectCripto && !isNaN(quantidadeC) && quantidadeC > 0) {
+            const resultado = quantidadeC * selectCripto.current_price
             console.log(selectCripto.name, resultado)
 
-            const resultadoFormatado = resultado.toLocaleString('pt-BR', {
+            // funcao para formatar preços em reais
+            const formatarEmReais = (reais) => reais.toLocaleString('pt-BR', {
                 style: 'currency',
                 currency: 'BRL'
             })
 
+            // funcao para formatar as datas
+            const dataFormatada = (dateFormat) => dateFormat.toLocaleDateString("pt-BR", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric"
+            })
+
+            // funcao para formatar hora
+            const horaFormatada = (hora) => hora.toLocaleTimeString("pt-BR", {
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit"
+            })
+
+            const resultadoFormatado = formatarEmReais(resultado)
+            const precoUltimasHoras = formatarEmReais(selectCripto.price_change_24h)
+            const maiorPreco = formatarEmReais(selectCripto.ath)
+            const menorPreco = formatarEmReais(selectCripto.atl)
+            const dataUltimaAtualizacao = dataFormatada(new Date(selectCripto.last_updated))
+            const dataMaiorPrecoFormatado = dataFormatada(new Date(selectCripto.ath_date))
+            const horaUltimaAtualizao = horaFormatada(new Date(selectCripto.last_updated))
+
             output.innerHTML = `
-                <span>${selectCripto.symbol.toUpperCase()}: ${resultadoFormatado}</span> <span>Ultima atualizacao em ${selectCripto.last_updated}</span>
+            <span>${selectCripto.symbol.toUpperCase()}: ${resultadoFormatado}</span> <span>Ultima atualizacao em ${dataUltimaAtualizacao} as ${horaUltimaAtualizao}</span>
             `
+
+            infoContent.style.display = ""
             infoContent.innerHTML = `
                 <h3>${selectCripto.name}</h3>
-                <span>Variação de preço nas últimas 24 horas: R$${selectCripto.price_change_24h.toFixed(2)}</span>
+                <img id="criptoImg" src="${selectCripto.image}" style="width: 40px;">
+                <span>Variação de preço nas últimas 24 horas: ${precoUltimasHoras}</span>
                 <span>Variação percentual do preço nas últimas 24 horas: ${selectCripto.price_change_percentage_24h.toFixed(2)}%</span>
-                <span>Preço mais alto da história: ${selectCripto.ath} em ${selectCripto.ath_date}</span>
+                <span>Preço mais alto da história: ${maiorPreco} em ${dataMaiorPrecoFormatado}</span>
+                <span>Preço mais baixo da história: ${menorPreco}</span>
                 <span>Posição no ranking de capitalização: ${selectCripto.market_cap_rank}</span>
             `
 
@@ -68,4 +97,3 @@ function exibirConversor(cripto) {
         }
     })
 }
-
