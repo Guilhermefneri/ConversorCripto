@@ -15,25 +15,154 @@ body {
   align-items: center;
   flex-direction: column;
   min-height: 100vh;
-  padding: 1rem 1rem 5rem;
+  padding: 1rem 1rem 7rem;
+  background-color: rgb(43, 42, 92);
 }
 
 .titulo {
   width: 44rem;
+  color: rgb(255, 123, 0);
+  font-weight: 800;
+  text-shadow: 3px 1px 9px rgb(0 0 0);
+}
+
+.container {
+  padding: 40px;
+  border-radius: 10px;
+  background-color: rgb(255, 123, 0);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .inputRow {
-  padding: 40px;
-  border: 1px solid rgb(179, 179, 179);
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.inputColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.label {
+  font-size: smaller;
+  font-weight: bolder;
+}
+
+#quantCripto,
+#criptoSelect {
+  padding: 12px;
+  border: none;
   border-radius: 10px;
+  outline: none;
+  width: 20rem;
+}
+
+#btn {
+  background-color: #ffff;
+  color: rgb(43, 42, 92);
+  font-weight: bold;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+#btn:hover {
+  transition: 0.5s ease;
+  background-color: rgb(43, 42, 92);
+  color: #ffff;
+}
+
+#precoConvertido {
+  display: inline-block;
+  margin-top: 7px;
+  font-weight: 600;
+}
+
+#ultAtualizacao {
+  font-size: smaller;
+}
+
+#campoVazio {
+  display: inline-block;
+  margin-top: 8px;
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  padding: 10px;
+  border-radius: 8px;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
 }
 
 .infoContent {
   text-align: center;
-  padding: 0 3rem 3rem;
-  display: flex;
-  flex-direction: column;
+  padding: 1rem 3rem 3rem;
   margin-top: 15px;
   border-radius: 15px;
-  background-color: #00000024;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.infoHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 8px;
+  gap: 5px;
+}
+
+#criptoImg {
+  width: 40px;
+}
+
+.infoItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.infoItem span {
+  color: white;
+  font-size: 1rem;
+  line-height: 1.4;
+  font-weight: bold;
+}
+
+.infoItem span:first-child {
+  color: rgb(255, 195, 0);
+}
+
+.infoItem span:last-child {
+  color: rgb(173, 216, 230);
+}
+
+#quantCripto::placeholder {
+  color: #ccc;
+  font-style: italic;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .inputRow {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  #quantCripto,
+  #criptoSelect {
+    width: 100%;
+  }
+
+  .titulo {
+    width: 100%;
+    text-align: center;
+  }
 }
