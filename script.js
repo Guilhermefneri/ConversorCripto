@@ -11,21 +11,35 @@ fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=brl')
 
 function exibirConversor(cripto) {
     const divIinputRow = document.createElement('div')
-    let optionsCripto = `<option value="" disabled selected>Selecione uma moeda</option>`
+    let optionsCripto = `<option value="" disabled selected>Selecione uma criptomoeda</option>`
 
     // mostra as opcoes de criptomoedas
     cripto.forEach(element => {
         optionsCripto += `<option value="${element.id}"> ${element.name} (${element.symbol.toUpperCase()}) </option>`
     });
 
+    // adiciona os inputs e select na página html
     divIinputRow.innerHTML = `
         <h2 class="titulo">Conversor de Criptomoedas</h2>
-        <div class="inputRow">
-            <input type="number" id="quantCripto" placeholder="Digite o valor">
-            <select name="criptomoedas" id="criptoSelect">
-                ${optionsCripto}
-            </select>
-            <button id="btn">Ver resultado</button>
+        <div class="container">
+            <div class="inputRow">
+                <div class="inputColumn">
+                    <label for="quantCripto" class="label">Insira a quantidade de criptomoedas</label>
+                    <input type="number" id="quantCripto" placeholder="Ex.: 3">
+                </div>
+
+                <div class="inputColumn">
+                    <label for="criptoSelect" class="label">Selecione uma criptomoeda</label>
+                    <select name="criptomoedas" id="criptoSelect">
+                        ${optionsCripto}
+                    </select>
+                </div>
+
+                <div class="inputColumn">
+                    <label class="label">&nbsp;</label> <!-- label com espaço em branco para ajustar o botao -->
+                    <button id="btn">Ver resultado</button>
+                </div>   
+        </div>
             <div id="output"></div>
         </div>
         <div class="infoContent" style="display: none;"></div>
@@ -39,6 +53,7 @@ function exibirConversor(cripto) {
     const quantCripto = document.querySelector('#quantCripto')
     const infoContent = document.querySelector(".infoContent")
 
+    // evento de clique para que mostre as informações da cripto moeda selecionada
     btn.addEventListener("click", () => {
         const quantidadeC = quantCripto.value
         const selectCripto = cripto.find(c => c.id === select.value)
@@ -76,23 +91,27 @@ function exibirConversor(cripto) {
             const horaUltimaAtualizao = horaFormatada(new Date(selectCripto.last_updated))
 
             output.innerHTML = `
-            <span>${selectCripto.symbol.toUpperCase()}: ${resultadoFormatado}</span> <span>Ultima atualizacao em ${dataUltimaAtualizacao} as ${horaUltimaAtualizao}</span>
+            <span id="precoConvertido">${selectCripto.symbol.toUpperCase()}: ${resultadoFormatado}</span> <span id="ultAtualizacao">Última atualização em ${dataUltimaAtualizacao} às ${horaUltimaAtualizao}h</span>
             `
 
             infoContent.style.display = ""
             infoContent.innerHTML = `
-                <h3>${selectCripto.name}</h3>
-                <img id="criptoImg" src="${selectCripto.image}" style="width: 40px;">
-                <span>Variação de preço nas últimas 24 horas: ${precoUltimasHoras}</span>
-                <span>Variação percentual do preço nas últimas 24 horas: ${selectCripto.price_change_percentage_24h.toFixed(2)}%</span>
-                <span>Preço mais alto da história: ${maiorPreco} em ${dataMaiorPrecoFormatado}</span>
-                <span>Preço mais baixo da história: ${menorPreco}</span>
-                <span>Posição no ranking de capitalização: ${selectCripto.market_cap_rank}</span>
+                <div class="infoHeader">
+                    <h3 style="font-size: 30px;">${selectCripto.name}</h3>
+                    <img id="criptoImg" src="${selectCripto.image}">
+                </div>
+                <div class="infoItem">
+                    <span>Variação de preço nas últimas 24 horas: ${precoUltimasHoras}</span>
+                    <span>Variação percentual do preço nas últimas 24 horas: ${selectCripto.price_change_percentage_24h.toFixed(2)}%</span>
+                    <span>Preço mais alto da história: ${maiorPreco} em ${dataMaiorPrecoFormatado}</span>
+                    <span>Preço mais baixo da história: ${menorPreco}</span>
+                    <span>Posição no ranking de capitalização: ${selectCripto.market_cap_rank}</span>
+                </div>
             `
 
         } else {
             output.innerHTML = `
-                <span style="color: red;">Selecione uma criptomoeda e insira um valor maior que 0.</span>
+                <span id="campoVazio">Selecione uma criptomoeda e insira um valor maior que 0.</span>
             `
         }
     })
